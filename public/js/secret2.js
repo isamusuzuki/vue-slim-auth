@@ -10,8 +10,13 @@ export default {
             }).then(response => {
                 window.alert(JSON.stringify(response.data.payload));
             }).catch(error => {
-                this.$store.commit('logout');
-                this.$router.push({ path: '/login' });
+                if (error.response.status === 401) {
+                    window.alert('トークンの有効期限が切れました。再度ログインしてください');
+                    this.$store.commit('logout');
+                    this.$router.push({ path: '/login' });
+                } else {
+                    window.alert(`エラー発生: ${JSON.stringify(error)}`);
+                }
             });
         }
     },
