@@ -17,3 +17,10 @@
 - APIは、SPAからAjaxでリクエストを受け付けている
 - `/auth`は、ログイン認証に成功すると、JWT(JSON Web Token)を返す
 - `/auth`以外は、Authorizationヘッダーにトークンを入れないとエラーを返す
+
+## ローカルで動かすには？
+
+- パッケージが必要なので、ルートディレクトリで`composer update`する
+- Xampp (Apache)のConfigをいじって、`C:/Users/exeo/vue-slim-auth/public`をドキュメントルートにする
+- Xampp (MySQL)を起動して、`setup_db.sql`を実行する
+- Xampp (Apache, MySQL)を起動する
