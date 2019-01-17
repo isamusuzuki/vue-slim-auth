@@ -1,17 +1,17 @@
 export default {
-    computed: {
-        isMenuActive: function () {
-            return this.$store.state.isMenuActive;
+    data: function() {
+        return {
+            isMenuActive: false
         }
     },
     methods: {
         toggleMenu: function() {
-            this.$store.commit('toggleMenu');
+            this.isMenuActive = !this.isMenuActive;
         }
     },
     watch: {
         '$route' () {
-            this.$store.commit('resetMenu');
+            this.isMenuActive = false;
         }
     },
     template: `
@@ -26,7 +26,7 @@ export default {
                 </a>
             </div>
             <div id="navMenu" class="navbar-menu" v-bind:class="{'is-active': isMenuActive}">
-                <div class="navbar-end">
+                <div class="navbar-start">
                     <router-link to="/secret1" class="navbar-item">SECRET1</router-link>
                     <router-link to="/secret2" class="navbar-item">SECRET2</router-link>
                 </div>

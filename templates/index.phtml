@@ -38,8 +38,7 @@
             state: {
                 token: '',
                 username: '',
-                hasToken: false,
-                isMenuActive: false,
+                hasToken: false
             },
             mutations: {
                 loggedin (state, data) {
@@ -51,12 +50,6 @@
                     state.token = '';
                     state.username = '';
                     state.hasToken = false;
-                },
-                toggleMenu (state) {
-                    state.isMenuActive = !state.isMenuActive;
-                },
-                resetMenu (state) {
-                    state.isMenuActive = false;
                 }
             }
         });
