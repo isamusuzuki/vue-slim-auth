@@ -44,6 +44,7 @@ $app->group('/api', function(App $app) {
         return $this->response->withJson(['payload' => $payload]);
     });
 
+    //TODO: このAPIを使うページを作成し、Secret2ページと交代させる
     $app->post('/signup', function (Request $request, Response $response, array $args) {
         $email = $request->getParsedBodyParam('email');
         $password = $request->getParsedBodyParam('password');
