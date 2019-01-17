@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Bacon</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <style>
+        .login-link {
+            text-decoration: underline;
+            color: blue;
+        }
+        .login-link:hover {
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <nav-menu></nav-menu>
+        <user-status></user-status>
+        <router-view></router-view>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="https://unpkg.com/vuex/dist/vuex.js"></script>
+    <script type="module">
+        import NavMenu from '/js/nav_menu.js';
+        import UserStatus from '/js/user_status.js';
+        import Top from '/js/top.js';
+        import Login from '/js/login.js';
+        import Secret1 from '/js/secret1.js';
+        import Secret2 from '/js/secret2.js';
+
+        const store = new Vuex.Store({
+            state: {
+                token: '',
+                username: '',
+                hasToken: false,
+                isMenuActive: false,
+            },
+            mutations: {
+                loggedin (state, data) {
+                    state.token = data.token;
+                    state.username = data.username;
+                    state.hasToken = true;
+                },
+                logout (state) {
+                    state.token = '';
+                    state.username = '';
+                    state.hasToken = false;
+                },
+                toggleMenu (state) {
+                    state.isMenuActive = !state.isMenuActive;
+                },
+                resetMenu (state) {
+                    state.isMenuActive = false;
+                }
+            }
+        });
+
+        const router = new VueRouter({
+            routes: [
+                { path: '/login', component: Login},
+                { path: '/', component: Top},
+                { path: '/secret1', component: Secret1, meta: { requiresAuth: true }},
+                { path: '/secret2', component: Secret2, meta: { requiresAuth: true }}
+            ]
+        });
+
+        router.beforeEach(function(to, from, next) {
+            if (to.matched.some(record => record.meta.requiresAuth)) {
+                if (!store.state.hasToken) {
+                    next({ path: '/login', query: { redirect: to.fullPath } });
+                } else {
+                    next();
+                }
+            } else {
+                next();
+            }
+        });
+
+        const app = new Vue({
+            el: '#app',
+            router,
+            store,
+            components: {
+                'user-status': UserStatus,
+                'nav-menu': NavMenu
+            }
+        });
+    </script>
+</body>
+</html>
