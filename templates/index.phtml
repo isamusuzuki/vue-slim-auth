@@ -31,6 +31,7 @@
         import UserStatus from '/js/user_status.js';
         import Top from '/js/top.js';
         import Login from '/js/login.js';
+        import Signup from '/js/signup.js';
         import Secret1 from '/js/secret1.js';
         import Secret2 from '/js/secret2.js';
 
@@ -56,6 +57,7 @@
 
         const router = new VueRouter({
             routes: [
+                { path: '/signup', component: Signup},
                 { path: '/login', component: Login},
                 { path: '/', component: Top},
                 { path: '/secret1', component: Secret1, meta: { requiresAuth: true }},
@@ -64,8 +66,11 @@
         });
 
         router.beforeEach(function(to, from, next) {
+            // 次の行き先のルートオブジェクトにメタフィールドがあるかどうかチェックする
             if (to.matched.some(record => record.meta.requiresAuth)) {
+                // storeにあるhasToken変数がtrueかどうかをチェックする
                 if (!store.state.hasToken) {
+                    // re1uiresAuthがtrueなのに、hasTokenがfalseなものはログインページに送られる
                     next({ path: '/login', query: { redirect: to.fullPath } });
                 } else {
                     next();

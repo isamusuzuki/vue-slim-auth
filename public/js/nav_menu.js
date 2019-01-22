@@ -29,6 +29,7 @@ export default {
                 <div class="navbar-start">
                     <router-link to="/secret1" class="navbar-item">SECRET1</router-link>
                     <router-link to="/secret2" class="navbar-item">SECRET2</router-link>
+                    <router-link to="/signup" class="navbar-item">SIGNUP</router-link>
                 </div>
             </div>
         </nav>

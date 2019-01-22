@@ -11,6 +11,22 @@ $app->get('/', function (Request $request, Response $response, array $args) {
     return $this->renderer->render($response, 'index.phtml', $args);
 });
 
+$app->post('/signup', function (Request $request, Response $response, array $args) {
+    $email = $request->getParsedBodyParam('email');
+    $password = $request->getParsedBodyParam('password');
+    if ($email === NULL || $password === NULL) {
+        return $this->response->withJson(['error' => true, 'message' => 'not enough parameters']);  
+    }
+    $sql = "INSERT INTO users (first_name, last_name, email, password) VALUES ('abc', 'xyz', :email, :password);";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $hash = password_hash($password, PASSWORD_DEFAULT);
+    $stmt->bindParam(':password', $hash, PDO::PARAM_STR);
+    $stmt->execute();
+    $data = ['message' => 'SUCCESS'];
+    return $this->response->withJson($data, 200)->withHeader('Content-Type', 'application/json;charset=utf-8');
+});
+
 $app->post('/auth', function (Request $request, Response $response, array $args) {
     $input = $request->getParsedBody();
     $sql = "SELECT * FROM users WHERE email= :email";
@@ -42,23 +58,6 @@ $app->group('/api', function(App $app) {
     $app->get('/user',function(Request $request, Response $response, array $args) {
         $payload = $request->getAttribute('decoded_token_data');
         return $this->response->withJson(['payload' => $payload]);
-    });
-
-    //TODO: このAPIを使うページを作成し、Secret2ページと交代させる
-    $app->post('/signup', function (Request $request, Response $response, array $args) {
-        $email = $request->getParsedBodyParam('email');
-        $password = $request->getParsedBodyParam('password');
-        if ($email === NULL || $password === NULL) {
-            return $this->response->withJson(['error' => true, 'message' => 'not enough parameters']);  
-        }
-        $sql = "INSERT INTO users (first_name, last_name, email, password) VALUES ('abc', 'xyz', :email, :password);";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        $stmt->bindParam(':password', $hash, PDO::PARAM_STR);
-        $stmt->execute();
-        $data = ['message' => 'SUCCESS'];
-        return $this->response->withJson($data, 200)->withHeader('Content-Type', 'application/json;charset=utf-8');
     });
 });
 
