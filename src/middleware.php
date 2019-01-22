@@ -1,11 +1,14 @@
 <?php
 // Application middleware
 
+$container = $app->getContainer();
+$settings = $container->get('settings');
+
 // e.g: $app->add(new \Slim\Csrf\Guard);
 $app->add(new \Tuupola\Middleware\JwtAuthentication([
     "path" => "/api", /* or ["/api", "/admin"] */
     "attribute" => "decoded_token_data",
-    "secret" => "supersecretkeyyoushouldnotcommittogithub",
+    "secret" => $settings['jwt']['secret'],
     "algorithm" => ["HS256"],
     "error" => function ($response, $arguments) {
         $data["status"] = "error";

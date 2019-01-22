@@ -20,7 +20,7 @@ $container['logger'] = function ($c) {
 
 // database
 $container['db'] = function ($c) {
-    $db = $c['settings']['db'];
+    $db = $c->get('settings')['db'];
     $pdo = new PDO('mysql:host=' . $db['host'] . ';dbname=' . $db['database'], $db['username'], $db['password']);
     # 静的プレースホルダを使うようにエミュレーションを無効化する
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
