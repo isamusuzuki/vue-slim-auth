@@ -1,6 +1,6 @@
 # Vue-Slim-Authとは？
 
-作成日 2019/01/17
+作成日 2019/01/17、更新日 2019/01/24
 
 このアプリは、クライアントサイドは、Vue.jsを使ってSPA（シングルページアプリケーション）を実現し、サーバーサイドは、Slim Frameworkを使ってログイン認証を実現させている。
 
@@ -8,13 +8,14 @@
 
 - JavaScriptコードをWebpackなどでコンパイルしていない
 - scriptタブで`type=module`を指定し、`import`コマンドを使っている（よって、IEでは動作しない）
-- CDNで Bulma, FontAwesome, Vue.js, axios, Vue-Router, Vuex を組み込んでいる
+- CDNでBulma, FontAwesome, Vue.js, axios, Vue-Router, Vuexを組み込んでいる
 
 ## サーバーサイドの特長
 
 - サーバーは、静的ファイルを吐き出すか、APIとして働くかの2通りのみで、テンプレートは使っていない
 - `/auth`APIは、ログイン認証に成功すると、JWT(JSON Web Token)を返す
 - `/auth`以外のAPIは、Authorizationヘッダーにトークンを入れないとエラーを返す
+- サーバーサイドのページ構成は、`src/routes.php`を見てください
 
 ## ローカルで動かすのに必要なもの
 
@@ -37,7 +38,7 @@ composer install
 - Xampp (Apache, MySQL)を起動する
 - ブラウザで'localhost'を開く
 
-## ファイル構成
+## ファイルディレクトリ構成
 
 ```text
 --vue-slim-auth
@@ -60,7 +61,7 @@ composer install
     |   `--settings.php ... 設定ファイル
     |
     |--templates/
-    |   `--index.phtml ... SPAの起動ファイル
+    |   `--index.phtml ... トップページ
     |
     |--composer.json ... Composerの設定ファイル1
     |--composer.lock ... Composerの設定ファイル2
