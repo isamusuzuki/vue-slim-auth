@@ -28,7 +28,7 @@ export default {
                 this.isError = true;
             } else {
                 axios.post('/signup', {
-                    email: this.username,
+                    username: this.username,
                     password: this.password
                 }).then(() => {
                     this.hasMessage = true;

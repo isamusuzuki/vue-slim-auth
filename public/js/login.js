@@ -13,7 +13,7 @@ export default {
             } else {
                 this.hasError = false;
                 axios.post('/auth', {
-                    email: this.username,
+                    username: this.username,
                     password: this.password
                 }).then(response => {
                     this.$store.commit('loggedin', {

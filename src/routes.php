@@ -12,14 +12,14 @@ $app->get('/', function (Request $request, Response $response, array $args) {
 });
 
 $app->post('/signup', function (Request $request, Response $response, array $args) {
-    $email = $request->getParsedBodyParam('email');
+    $username = $request->getParsedBodyParam('username');
     $password = $request->getParsedBodyParam('password');
-    if ($email === NULL || $password === NULL) {
+    if ($username === NULL || $password === NULL) {
         return $this->response->withJson(['error' => true, 'message' => 'not enough parameters']);  
     }
-    $sql = "INSERT INTO users (first_name, last_name, email, password) VALUES ('abc', 'xyz', :email, :password);";
+    $sql = "INSERT INTO users (username, password) VALUES (:username, :password);";
     $stmt = $this->db->prepare($sql);
-    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt->bindParam(':username', $username, PDO::PARAM_STR);
     $hash = password_hash($password, PASSWORD_DEFAULT);
     $stmt->bindParam(':password', $hash, PDO::PARAM_STR);
     $stmt->execute();
@@ -29,27 +29,27 @@ $app->post('/signup', function (Request $request, Response $response, array $arg
 
 $app->post('/auth', function (Request $request, Response $response, array $args) {
     $input = $request->getParsedBody();
-    $sql = "SELECT * FROM users WHERE email= :email";
+    $sql = "SELECT * FROM users WHERE username = :username";
     $sth = $this->db->prepare($sql);
-    $sth->bindParam("email", $input['email']);
+    $sth->bindParam("username", $input['username']);
     $sth->execute();
     $user = $sth->fetchObject();
 
-    // verify email address.
+    // verify username.
     if(!$user) {
-        $data = ['error' => true, 'message' => 'These credentials do not match our records.'];
+        $data = ['error' => true, 'message' => 'These credentials do not match our records (1).'];
         return $this->response->withJson($data, 400)->withHeader('Content-Type', 'application/json;charset=utf-8');  
     }
 
     // verify password.
     if (!password_verify($input['password'],$user->password)) {
-        $data = ['error' => true, 'message' => 'These credentials do not match our records.'];
+        $data = ['error' => true, 'message' => 'These credentials do not match our records (2).'];
         return $this->response->withJson($data, 400)->withHeader('Content-Type', 'application/json;charset=utf-8');  
     }
 
     $settings = $this->get('settings'); // get settings array.
-    $sanpun = time() + (3 * 60);
-    $token = JWT::encode(['id' => $user->id, 'email' => $user->email, 'exp' => $sanpun], $settings['jwt']['secret'], "HS256");
+    $expires = time() + (3 * 60);  // setup expiration data (currently 3 minutes).
+    $token = JWT::encode(['id' => $user->id, 'username' => $user->username, 'exp' => $expires], $settings['jwt']['secret'], "HS256");
     $data = ['token' => $token];
     return $this->response->withJson($data, 200)->withHeader('Content-Type', 'application/json;charset=utf-8');
 });
