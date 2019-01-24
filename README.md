@@ -2,25 +2,68 @@
 
 作成日 2019/01/17
 
-このデモは、クライアントサイドは、Vue.jsを使ってSPA（シングルページアプリケーション）を実現し、サーバーサイドは、Slim Frameworkを使ってログイン認証を実現させている
+このアプリは、クライアントサイドは、Vue.jsを使ってSPA（シングルページアプリケーション）を実現し、サーバーサイドは、Slim Frameworkを使ってログイン認証を実現させている。
 
 ## クライアントサイドの特長
 
-- JavaScriptコードをコンパイルしていない
-- `type=module`で、別ファイル化を実現している
+- JavaScriptコードをWebpackなどでコンパイルしていない
+- scriptタブで`type=module`を指定し、`import`コマンドを使っている（よって、IEでは動作しない）
 - CDNで Bulma, FontAwesome, Vue.js, axios, Vue-Router, Vuex を組み込んでいる
 
 ## サーバーサイドの特長
 
-- PHPのテンプレートは使っていない
-- サーバーは、静的ファイルを吐き出すか、APIとして働くかの2通りのみ
-- APIは、SPAからAjaxでリクエストを受け付けている
-- `/auth`は、ログイン認証に成功すると、JWT(JSON Web Token)を返す
-- `/auth`以外は、Authorizationヘッダーにトークンを入れないとエラーを返す
+- サーバーは、静的ファイルを吐き出すか、APIとして働くかの2通りのみで、テンプレートは使っていない
+- `/auth`APIは、ログイン認証に成功すると、JWT(JSON Web Token)を返す
+- `/auth`以外のAPIは、Authorizationヘッダーにトークンを入れないとエラーを返す
 
-## ローカルで動かすには？
+## ローカルで動かすのに必要なもの
 
-- パッケージが必要なので、ルートディレクトリで`composer update`する
-- Xampp (Apache)のConfigをいじって、`C:/Users/exeo/vue-slim-auth/public`をドキュメントルートにする
+- Windows 10（Macでは検証していない）
+- [XAMPP](https://www.apachefriends.org/jp/index.html)
+- [Composer](https://getcomposer.org/)
+- Linuxサーバーでの設定方法はここでは説明しない
+- ログインできるID/PWは、 `user/user@123`
+
+## インストール方法
+
+```bash
+git clone git@github.com:isamusuzuki/vue-slim-auth.git
+cd vue-slim-auth
+composer install
+```
+
+- Xampp (Apache)のConfigをいじって、`C:/Users/{your-name}/vue-slim-auth/public`をドキュメントルートにする
 - Xampp (MySQL)を起動して、`setup_db.sql`を実行する
 - Xampp (Apache, MySQL)を起動する
+- ブラウザで'localhost'を開く
+
+## ファイル構成
+
+```text
+--vue-slim-auth
+    |--public/
+    |   |--js/ ... SPAの構成ファイル群
+    |   |   |--login.js ... ログインページ
+    |   |   |--nav_menu.js ... ナビゲーションメニューのコンポーネント
+    |   |   |--secret.js ... 秘密ページ（ログイン前のアクセス不可）
+    |   |   |--signup.js ... 新規登録ページ
+    |   |   |--top.js ... トップページ
+    |   |   `--user_status.js ... ユーザーステイタスのコンポーネント
+    |   |
+    |   |--.htaccess ... Apache用の設定ファイル
+    |   `--index.php ... Slim Frameworkの起動ファイル
+    |
+    |--src/ ... Slim Frameworkの構成ファイル軍
+    |   |--dependencies.php ... 依存性注入コンテナ
+    |   |--middleware.php ... ミドルウェア
+    |   |--routes.php ... ルーティング
+    |   `--settings.php ... 設定ファイル
+    |
+    |--templates/
+    |   `--index.phtml ... SPAの起動ファイル
+    |
+    |--composer.json ... Composerの設定ファイル1
+    |--composer.lock ... Composerの設定ファイル2
+    |--README.md ... このファイル
+    `--setup_db.sql ... DBテーブル作成
+```
