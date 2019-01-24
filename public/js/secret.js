@@ -23,7 +23,7 @@ export default {
     template: `
         <section class="section">
             <div class="container">
-                <div class="is-size-1">Secret2</div>
+                <div class="is-size-1">Secret</div>
                 <a class="button is-link" v-on:click="click">APIを叩く</a>
             </div>
         </section>

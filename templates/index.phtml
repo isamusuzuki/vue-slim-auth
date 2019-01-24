@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>Bacon</title>
+    <title>DEMO</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -32,8 +32,7 @@
         import Top from '/js/top.js';
         import Login from '/js/login.js';
         import Signup from '/js/signup.js';
-        import Secret1 from '/js/secret1.js';
-        import Secret2 from '/js/secret2.js';
+        import Secret from '/js/secret.js';
 
         const store = new Vuex.Store({
             state: {
@@ -60,8 +59,7 @@
                 { path: '/signup', component: Signup},
                 { path: '/login', component: Login},
                 { path: '/', component: Top},
-                { path: '/secret1', component: Secret1, meta: { requiresAuth: true }},
-                { path: '/secret2', component: Secret2, meta: { requiresAuth: true }}
+                { path: '/secret', component: Secret, meta: { requiresAuth: true }}
             ]
         });
 
