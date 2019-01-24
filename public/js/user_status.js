@@ -22,7 +22,7 @@ export default {
                 <span class="icon"><i class="fas fa-lg fa-user"></i></span>&nbsp;
                 <span>{{ username }}さん</span>
                 <a class="login-link" v-on:click="logout">ログアウト</a>
-                <span class="icon"><i class="fas fa-lg fa-sign-in-alt"></i></span>
+                <span class="icon"><i class="fas fa-lg fa-sign-out-alt"></i></span>
             </div>
             <div class="is-pulled-right" v-else>
                 <a class="login-link" v-on:click="login">ログイン</a>
