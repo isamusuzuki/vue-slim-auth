@@ -54,14 +54,14 @@ composer install
     |   |--.htaccess ... Apache用の設定ファイル
     |   `--index.php ... Slim Frameworkの起動ファイル
     |
-    |--src/ ... Slim Frameworkの構成ファイル軍
+    |--src/ ... Slim Frameworkの構成ファイル群
     |   |--dependencies.php ... 依存性注入コンテナ
     |   |--middleware.php ... ミドルウェア
     |   |--routes.php ... ルーティング
     |   `--settings.php ... 設定ファイル
     |
     |--templates/
-    |   `--index.phtml ... トップページ
+    |   `--index.phtml ... SPAの起動ファイル
     |
     |--composer.json ... Composerの設定ファイル1
     |--composer.lock ... Composerの設定ファイル2
